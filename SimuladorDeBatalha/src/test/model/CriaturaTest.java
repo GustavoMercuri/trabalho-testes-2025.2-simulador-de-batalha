@@ -1,12 +1,13 @@
-package test;
+package test.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.when;
 
-import model.Criatura;
+import model.entidades.Criatura;
+
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 

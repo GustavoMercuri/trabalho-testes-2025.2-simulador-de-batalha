@@ -3,8 +3,6 @@ package model.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.StatusEfeito;
-
 public class Criatura {
 
 	private String nome;

@@ -1,8 +1,5 @@
 package model.entidades;
 
-import util.StatusEfeito;
-import util.TipoElemental;
-
 public class Ataque {
     private String nome;
     private int poder;

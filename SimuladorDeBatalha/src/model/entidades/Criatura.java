@@ -15,7 +15,7 @@ public class Criatura {
 	private int velocidade;
 	private String tipo;
 	private StatusEfeito status;
-    private List<Ataque> ataques;
+    private List<Ataque> ataqueList;
 
 	public Criatura(String nome, int vida, int ataque, int defesa, int velocidade, String tipo) {
 		this.nome = nome;
@@ -26,7 +26,7 @@ public class Criatura {
 		this.velocidade = velocidade;
 		this.tipo = tipo;
         this.status = StatusEfeito.NORMAL;
-        this.ataques = new ArrayList<>();
+        this.ataqueList = new ArrayList<>();
 	}
 
     public void receberDano(int dano){
@@ -44,12 +44,12 @@ public class Criatura {
         return this.vida > 0;
     }
 
-    public List<Ataque> getAtaques() {
-        return ataques;
+    public List<Ataque> getAtaqueList() {
+        return ataqueList;
     }
 
-    public void setAtaques(List<Ataque> ataques) {
-        this.ataques = ataques;
+    public void setAtaqueList(List<Ataque> ataqueList) {
+        this.ataqueList = ataqueList;
     }
 
     public String getNome() {

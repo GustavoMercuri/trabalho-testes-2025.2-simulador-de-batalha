@@ -1,12 +1,15 @@
 package model.entidades;
 
+import util.StatusEfeito;
+import util.TipoElemental;
+
 public class Ataque {
     private String nome;
     private int poder;
-    private String tipo;
-    private String efeito;
+    private TipoElemental tipo;
+    private StatusEfeito efeito;
 
-    public Ataque(String nome, int poder, String tipo, String efeito) {
+    public Ataque(String nome, int poder, TipoElemental tipo, StatusEfeito efeito) {
         this.nome = nome;
         this.poder = poder;
         this.tipo = tipo;
@@ -29,19 +32,19 @@ public class Ataque {
         this.poder = poder;
     }
 
-    public String getTipo() {
+    public TipoElemental getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoElemental tipo) {
         this.tipo = tipo;
     }
 
-    public String getEfeito() {
+    public StatusEfeito getEfeito() {
         return efeito;
     }
 
-    public void setEfeito(String efeito) {
+    public void setEfeito(StatusEfeito efeito) {
         this.efeito = efeito;
     }
 }

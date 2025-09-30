@@ -1,5 +1,8 @@
 package model.entidades;
 
+import util.StatusEfeito;
+import util.TipoElemental;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +14,12 @@ public class Criatura {
 	private int ataque;
 	private int defesa;
 	private int velocidade;
-	private String tipo;
+	private TipoElemental tipo;
 	private StatusEfeito status;
-    private List<Ataque> ataqueList;
+    private int duracaoStatus;
+    private List<Ataque> ataques;
 
-	public Criatura(String nome, int vida, int ataque, int defesa, int velocidade, String tipo) {
+	public Criatura(String nome, int vida, int ataque, int defesa, int velocidade, TipoElemental tipo) {
 		this.nome = nome;
 		this.vida = vida;
 		this.vidaMax = vida;
@@ -24,7 +28,7 @@ public class Criatura {
 		this.velocidade = velocidade;
 		this.tipo = tipo;
         this.status = StatusEfeito.NORMAL;
-        this.ataqueList = new ArrayList<>();
+        this.ataques = new ArrayList<>();
 	}
 
     public void receberDano(int dano){
@@ -42,12 +46,27 @@ public class Criatura {
         return this.vida > 0;
     }
 
-    public List<Ataque> getAtaqueList() {
-        return ataqueList;
+    public List<Ataque> getAtaques() {
+        return ataques;
     }
 
-    public void setAtaqueList(List<Ataque> ataqueList) {
-        this.ataqueList = ataqueList;
+    public void setAtaques(List<Ataque> ataques) {
+        this.ataques = ataques;
+    }
+
+    public void aplicarStatus(StatusEfeito status, int duracao) {
+        this.status = status;
+        this.duracaoStatus = duracao;
+    }
+
+    public void reduzirDuracaoStatus() {
+        if (this.status != StatusEfeito.NORMAL) {
+            this.duracaoStatus--;
+            if (this.duracaoStatus <= 0) {
+                this.status = StatusEfeito.NORMAL;
+                duracaoStatus = 0;
+            }
+        }
     }
 
     public String getNome() {
@@ -98,14 +117,6 @@ public class Criatura {
         this.velocidade = velocidade;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public StatusEfeito getStatus() {
         return status;
     }
@@ -114,4 +125,11 @@ public class Criatura {
         this.status = status;
     }
 
+    public TipoElemental getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoElemental tipo) {
+        this.tipo = tipo;
+    }
 }

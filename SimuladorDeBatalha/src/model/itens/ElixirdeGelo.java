@@ -2,7 +2,7 @@ package model.itens;
 
 import model.entidades.Criatura;
 import model.interfaces.Item;
-import model.entidades.StatusEfeito;
+import util.StatusEfeito;
 
 public class ElixirdeGelo implements Item{
 

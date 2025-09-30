@@ -15,4 +15,9 @@ public class SuperPocao implements Item{
         criatura.curar(valorCura * 2);
         System.out.println(criatura.getNome() + " foi curado em " + (valorCura * 2) + " pontos de vida.");
     }
+
+    @Override
+    public String getNome() {
+        return "Super Poção";
+    }
 }

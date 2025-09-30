@@ -2,7 +2,8 @@ package service;
 
 import model.entidades.Ataque;
 import model.entidades.Criatura;
-import model.interfaces.Equipamento;
+import model.interfaces.Item;
+import model.itens.*;
 import util.StatusEfeito;
 
 import java.util.Random;
@@ -39,9 +40,19 @@ public class BatalhaService {
         criatura.reduzirDuracaoStatus();
     }
 
+    private int duracaoPadrao(StatusEfeito status) {
+        if (status == null) return 0;
+        switch (status) {
+            case QUEIMADO: return 3;
+            case ENVENENADO: return 5;
+            case CONGELADO: return 1;
+            default: return 0;
+        }
+    }
+
     private void realizarAtaque(Criatura atacante, Criatura defensor, Ataque ataque) {
 
-        if (ataque.getEfeito() != null && ataque.getEfeito().equalsIgnoreCase("CURAR")) {
+        if (ataque.isCura()) {
             int cura = ataque.getPoder();
             atacante.curar(cura);
             System.out.println(atacante.getNome() + " usou " + ataque.getNome() + " e curou " + cura + " de vida! (HP: " + atacante.getVida() + ")");
@@ -57,19 +68,16 @@ public class BatalhaService {
 
         System.out.println(atacante.getNome() + " usou " + ataque.getNome() + " e causou " + dano + " de dano em " + defensor.getNome());
 
-        switch (ataque.getTipo().toUpperCase()) {
-            case "FOGO":
-                defensor.aplicarStatus(StatusEfeito.QUEIMADO, 3);
-                break;
-            case "VENENO":
-                defensor.aplicarStatus(StatusEfeito.ENVENENADO, 5);
-                break;
-            case "GELO":
-                defensor.aplicarStatus(StatusEfeito.CONGELADO, 1);
-                break;
-            default:
-                break;
+        if (ataque.getEfeitoStatus() != StatusEfeito.NORMAL && ataque.aplicaEfeito()) {
+            int dur = duracaoPadrao(ataque.getEfeitoStatus());
+            defensor.aplicarStatus(ataque.getEfeitoStatus(), dur);
+            System.out.println(defensor.getNome() + " foi afetado por " + ataque.getEfeitoStatus() + " por " + dur + " turnos!");
         }
+    }
+
+    private void usarItem(Criatura criatura, Item item) {
+        item.aplicar(criatura);
+        System.out.println(criatura.getNome() + " usou " + item.getNome() + "!");
     }
 
     public void iniciarBatalha() {
@@ -99,10 +107,47 @@ public class BatalhaService {
                 System.out.println(atacante.getNome() + " está congelado e perdeu o turno!");
                 atacante.reduzirDuracaoStatus();
             } else {
-                if (!atacante.getAtaques().isEmpty()) {
-                    int index = random.nextInt(atacante.getAtaques().size());
-                    Ataque ataque = atacante.getAtaques().get(index);
-                    realizarAtaque(atacante, defensor, ataque);
+                if (atacante.getStatus() != StatusEfeito.NORMAL && random.nextInt(100) < 30) {
+                    Item itemParaStatus = null;
+                    for (Item it : atacante.getInventario()) {
+                        if ( (atacante.getStatus() == StatusEfeito.ENVENENADO && it instanceof Antidoto)
+                                || (atacante.getStatus() == StatusEfeito.QUEIMADO && it instanceof ElixirdeFogo)
+                                || (atacante.getStatus() == StatusEfeito.CONGELADO && it instanceof ElixirdeGelo) ) {
+                            itemParaStatus = it;
+                            break;
+                        }
+                    }
+                    if (itemParaStatus != null) {
+                        usarItem(atacante, itemParaStatus);
+                        atacante.getInventario().remove(itemParaStatus);
+                    } else {
+                        if (!atacante.getAtaques().isEmpty()) {
+                            Ataque ataque = atacante.getAtaques().get(random.nextInt(atacante.getAtaques().size()));
+                            realizarAtaque(atacante, defensor, ataque);
+                        }
+                    }
+                } else if (atacante.getVida() < atacante.getVidaMax() * 0.3) {
+                    Item pocao = null;
+                    for (Item it : atacante.getInventario()) {
+                        if (it instanceof SuperPocao) { pocao = it; break; } // prioriza super poção
+                    }
+                    if (pocao == null) {
+                        for (Item it : atacante.getInventario()) {
+                            if (it instanceof PocaoCura) { pocao = it; break; }
+                        }
+                    }
+                    if (pocao != null) {
+                        usarItem(atacante, pocao);
+                        atacante.getInventario().remove(pocao);
+                    } else if (!atacante.getAtaques().isEmpty()) {
+                        Ataque ataque = atacante.getAtaques().get(random.nextInt(atacante.getAtaques().size()));
+                        realizarAtaque(atacante, defensor, ataque);
+                    }
+                } else {
+                    if (!atacante.getAtaques().isEmpty()) {
+                        Ataque ataque = atacante.getAtaques().get(random.nextInt(atacante.getAtaques().size()));
+                        realizarAtaque(atacante, defensor, ataque);
+                    }
                 }
             }
 

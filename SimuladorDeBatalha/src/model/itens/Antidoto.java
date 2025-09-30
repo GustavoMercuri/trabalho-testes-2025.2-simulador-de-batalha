@@ -15,4 +15,9 @@ public class Antidoto implements Item {
             System.out.println(criatura.getNome() + " não está envenenado.");
         }
     }
+
+    @Override
+    public String getNome() {
+        return "Antídoto";
+    }
 }

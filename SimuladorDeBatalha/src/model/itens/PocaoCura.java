@@ -15,4 +15,9 @@ public class PocaoCura implements Item {
         criatura.curar(valorCura);
         System.out.println(criatura.getNome() + " foi curado em " + valorCura + " pontos de vida.");
     }
+
+    @Override
+    public String getNome() {
+        return "Poção de Cura";
+    }
 }

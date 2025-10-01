@@ -1,47 +1,56 @@
 package model.entidades;
 
+import util.StatusEfeito;
+import java.util.Random;
+
 public class Ataque {
     private String nome;
     private int poder;
     private String tipo;
-    private String efeito;
+    private StatusEfeito efeitoStatus;
+    private double chanceEfeito;
+    private boolean cura;
 
-    public Ataque(String nome, int poder, String tipo, String efeito) {
+    public Ataque(String nome, int poder, String tipo) {
+        this(nome, poder, tipo, StatusEfeito.NORMAL, 0.0, false);
+    }
+
+    public Ataque(String nome, int poder, String tipo, StatusEfeito efeitoStatus, double chanceEfeito) {
+        this(nome, poder, tipo, efeitoStatus, chanceEfeito, false);
+    }
+
+    public Ataque(String nome, int poder, boolean cura) {
+        this(nome, poder, "NORMAL", StatusEfeito.NORMAL, 0.0, cura);
+    }
+
+
+    public Ataque(String nome, int poder, String tipo, StatusEfeito efeitoStatus, double chanceEfeito, boolean cura) {
         this.nome = nome;
         this.poder = poder;
         this.tipo = tipo;
-        this.efeito = efeito;
+        this.efeitoStatus = efeitoStatus;
+        this.chanceEfeito = chanceEfeito;
+        this.cura = cura;
     }
 
-    public String getNome() {
-        return nome;
+    public boolean aplicaEfeito() {
+        if (efeitoStatus == StatusEfeito.NORMAL) return false;
+        Random random = new Random();
+        return random.nextDouble() <= chanceEfeito;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public int getPoder() {
-        return poder;
-    }
+    public int getPoder() { return poder; }
+    public void setPoder(int poder) { this.poder = poder; }
 
-    public void setPoder(int poder) {
-        this.poder = poder;
-    }
+    public StatusEfeito getEfeitoStatus() { return efeitoStatus; }
+    public void setEfeitoStatus(StatusEfeito efeitoStatus) { this.efeitoStatus = efeitoStatus; }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public double getChanceEfeito() { return chanceEfeito; }
+    public void setChanceEfeito(double chanceEfeito) { this.chanceEfeito = chanceEfeito; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getEfeito() {
-        return efeito;
-    }
-
-    public void setEfeito(String efeito) {
-        this.efeito = efeito;
-    }
+    public boolean isCura() { return cura; }
+    public void setCura(boolean cura) { this.cura = cura; }
 }

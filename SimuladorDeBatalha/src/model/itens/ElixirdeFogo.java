@@ -15,4 +15,9 @@ public class ElixirdeFogo implements Item{
             System.out.println(criatura.getNome() + " não está queimado.");
         }
     }
+
+    @Override
+    public String getNome() {
+        return "Elixir de Fogo";
+    }
 }

@@ -15,4 +15,9 @@ public class ElixirdeGelo implements Item{
             System.out.println(criatura.getNome() + " não está congelado.");
         }
     }
+
+    @Override
+    public String getNome() {
+        return "Elixir de Gelo";
+    }
 }

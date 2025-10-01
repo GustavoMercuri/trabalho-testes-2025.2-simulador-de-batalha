@@ -1,5 +1,6 @@
 package model.entidades;
 
+import model.interfaces.Item;
 import util.StatusEfeito;
 import util.TipoElemental;
 
@@ -18,6 +19,7 @@ public class Criatura {
 	private StatusEfeito status;
     private int duracaoStatus;
     private List<Ataque> ataques;
+    private List<Item> inventario;
 
 	public Criatura(String nome, int vida, int ataque, int defesa, int velocidade, TipoElemental tipo) {
 		this.nome = nome;
@@ -29,6 +31,7 @@ public class Criatura {
 		this.tipo = tipo;
         this.status = StatusEfeito.NORMAL;
         this.ataques = new ArrayList<>();
+        this.inventario = new ArrayList<>();
 	}
 
     public void receberDano(int dano){
@@ -67,6 +70,18 @@ public class Criatura {
                 duracaoStatus = 0;
             }
         }
+    }
+
+    public List<Item> getInventario() {
+        return inventario;
+    }
+
+    public void adicionarItem(Item item) {
+        this.inventario.add(item);
+    }
+
+    public void removerItem(Item item) {
+        this.inventario.remove(item);
     }
 
     public String getNome() {

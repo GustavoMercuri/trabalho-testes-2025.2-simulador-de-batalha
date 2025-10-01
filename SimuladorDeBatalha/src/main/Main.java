@@ -5,6 +5,11 @@ import model.entidades.Criatura;
 import model.equipamentos.ArmaduraDraconica;
 import model.equipamentos.ElmodoSabio;
 import model.interfaces.Equipamento;
+import model.itens.Antidoto;
+import model.itens.ElixirdeFogo;
+import model.itens.ElixirdeGelo;
+import model.itens.PocaoCura;
+import model.itens.SuperPocao;
 import service.BatalhaService;
 import util.StatusEfeito;
 import util.TipoElemental;
@@ -19,6 +24,10 @@ public class Main {
         dragao.getAtaques().add(new Ataque("Garra Dracônica", 10, TipoElemental.NORMAL));
         dragao.getAtaques().add(new Ataque("Explosão de Lava", 14, TipoElemental.FOGO, StatusEfeito.QUEIMADO, 0.4));
         dragao.getAtaques().add(new Ataque("Asas Cortantes", 9, TipoElemental.AR));
+        
+        dragao.adicionarItem(new PocaoCura(20));
+        dragao.adicionarItem(new Antidoto());
+        dragao.adicionarItem(new ElixirdeFogo());
 
         Criatura golem = new Criatura("Golem de Pedra", 100, 12, 15, 5, TipoElemental.TERRA);
         new ElmodoSabio().equipar(golem);
@@ -26,6 +35,10 @@ public class Main {
         golem.getAtaques().add(new Ataque("Terremoto", 14, TipoElemental.TERRA));
         golem.getAtaques().add(new Ataque("Arremesso de Rocha", 11, TipoElemental.TERRA));
         golem.getAtaques().add(new Ataque("Esmagar", 13, TipoElemental.NORMAL));
+        
+        golem.adicionarItem(new SuperPocao(30));
+        golem.adicionarItem(new ElixirdeGelo());
+        golem.adicionarItem(new ElixirdeFogo());
 
         Criatura magoGelo = new Criatura("Mago de Gelo", 60, 14, 6, 12, TipoElemental.AGUA);
 

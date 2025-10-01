@@ -20,7 +20,7 @@ public class BatalhaService {
         this.random = new Random();
     }
 
-    private void aplicarEfeitos(Criatura criatura) {
+    public void aplicarEfeitos(Criatura criatura) {
         switch (criatura.getStatus()) {
             case QUEIMADO:
                 criatura.receberDano(5);
@@ -49,6 +49,29 @@ public class BatalhaService {
             default: return 0;
         }
     }
+    
+    //Só para os testes
+    public int calcularDano(Criatura atacante, Criatura defensor, Ataque ataque) {
+    	if (ataque.getEfeitoStatus() != StatusEfeito.NORMAL && ataque.aplicaEfeito()) {
+            int dur = duracaoPadrao(ataque.getEfeitoStatus());
+            defensor.aplicarStatus(ataque.getEfeitoStatus(), dur);
+            System.out.println(defensor.getNome() + " foi afetado por " + ataque.getEfeitoStatus() + " por " + dur + " turnos!");
+        }
+    	
+    	if (ataque.isCura()) {
+            int cura = ataque.getPoder();
+            atacante.curar(cura);
+            System.out.println(atacante.getNome() + " usou " + ataque.getNome() + " e curou " + cura + " de vida! (HP: " + atacante.getVida() + ")");
+            return cura;
+        }
+    	
+    	double multiplicador = CalculadoraElemental.calcularMultiplicador(ataque.getTipo(), defensor.getTipo());
+        int dano = (int) ((atacante.getAtaque() + ataque.getPoder() - defensor.getDefesa()) * multiplicador);
+
+        if (dano < 1) dano = 1;
+
+        return dano;
+    }
 
     private void realizarAtaque(Criatura atacante, Criatura defensor, Ataque ataque) {
 
@@ -59,7 +82,7 @@ public class BatalhaService {
             return;
         }
 
-        double multiplicador = CalculadoraElemental.calcularMultiplicador(atacante.getTipo(), defensor.getTipo());
+        double multiplicador = CalculadoraElemental.calcularMultiplicador(ataque.getTipo(), defensor.getTipo());
         int dano = (int) ((atacante.getAtaque() + ataque.getPoder() - defensor.getDefesa()) * multiplicador);
 
         if (dano < 1) dano = 1;

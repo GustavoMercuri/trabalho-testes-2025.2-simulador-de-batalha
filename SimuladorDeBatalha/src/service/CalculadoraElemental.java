@@ -32,6 +32,10 @@ public class CalculadoraElemental {
             case TREVAS:
                 if (defensor == TipoElemental.LUZ) return 2.0;
                 break;
+            case GELO:
+            	if (defensor == TipoElemental.AGUA) return 0.5;
+                if (defensor == TipoElemental.TERRA) return 2.0;
+                break;
         }
 
         return 1.0;
